@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -8,308 +9,206 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
-  int value = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent.shade200,
+        title: const Align(
+        alignment: Alignment.center,
+        child: Text(
+          'Calculator',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      ),
+      backgroundColor: Colors.white,
+      body: const MainClass(),
+    );
+  }
+}
+
+class MainClass extends StatelessWidget{
+  const MainClass({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final style = ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.transparent),
-        foregroundColor: MaterialStateProperty.all(Colors.black),
-        padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
-        minimumSize: MaterialStateProperty.all(const Size(60, 60)),
-        shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0),
-                side: const BorderSide(color: Colors.red)
-            )
-        )
+    return const Column(
+      children: [
+        Screen(),
+        SizedBox(width: 8),
+        ButtonDesign(),
+      ],
     );
-    // String _output = '0';
-    // String _currentInput = '';
-    // String _operator = '';
-    // double _num1 = 0;
-    // double _num2 = 0;
+  }
+}
 
-    final List<String> buttons = [
-      'C',
-      '%',
-      'DEL',
-      '/',
-      '7',
-      '8',
-      '9',
-      'X',
-      '4',
-      '5',
-      '6',
-      '-',
-      '1',
-      '2',
-      '3',
-      '+',
-      '00',
-      '0',
-      ',',
-      '='
-    ];
+class Screen extends StatelessWidget{
+  const Screen({super.key});
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Align(
-          alignment: Alignment.center,
-          child: Text('Calculator'),
-        ),
-        backgroundColor: Colors.redAccent.shade200,
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Spacer(flex: 150),
-            Row(// Линия для отображения кнопок
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
+      child: SizedBox(width: 350.0, height: 75.0,
+        child: Column(children: [
+          Row(// Линия для отображения кнопок
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(value.toString(),
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 50.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const Spacer(flex: 20),
-          const Row(// Линия для отображения кнопок
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text("=",
+              Text('value',
                 style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 40.0,
+                  color: Colors.black,
+                  fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          const Spacer(flex: 20),
-          Row(
+          Row(// Линия для отображения кнопок
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[0],
-                  style: const TextStyle(fontSize: 30.0),
+              Text("= result",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[1],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[2],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[3],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 50)
             ],
           ),
-          const Spacer(flex: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  setState(() {
-                    value = 7;
-                  });
-                },
-                child: Text(buttons[4],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 8;
-                });},
-                child: Text(buttons[5],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 9;
-                });},
-                child: Text(buttons[6],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[7],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 50)
-            ],
-          ),
-          const Spacer(flex: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 4;
-                });},
-                child: Text(buttons[8],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 5;
-                });},
-                child: Text(buttons[9],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 6;
-                });},
-                child: Text(buttons[10],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[11],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 50)
-            ],
-          ),
-          const Spacer(flex: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 1;
-                });},
-                child: Text(buttons[12],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 2;
-                });},
-                child: Text(buttons[13],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 3;
-                });},
-                child: Text(buttons[14],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[15],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 50)
-            ],
-          ),
-          const Spacer(flex: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[16],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {setState(() {
-                  value = 0;
-                });},
-                child: Text(buttons[17],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {},
-                child: Text(buttons[18],
-                  style: const TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  setState(() {
-                    value = 3;
-                  });
-                },
-                child: const Text('=',
-                  style: TextStyle(fontSize: 30.0),
-                ),
-              ),
-              const SizedBox(width: 50)
-            ],
-          ),
-          const Spacer(flex: 15),
         ],
+        ),
       ),
     );
   }
 }
+class ButtonDesign extends StatelessWidget{
+
+  const ButtonDesign({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(padding: EdgeInsets.all(24),
+      child: SizedBox(width: 350.0, height: 500.0,
+        child: Column(children: [
+          Spacer(),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            BuildButtons(buttonName: "C"),
+            BuildButtons(buttonName: "%"),
+            BuildButtons(buttonName: "<="),
+            BuildButtons(buttonName: "/"),
+              ],
+            ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            BuildButtons(buttonName: "7"),
+            BuildButtons(buttonName: "8"),
+            BuildButtons(buttonName: "9"),
+            BuildButtons(buttonName: "*"),
+              ],
+            ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            BuildButtons(buttonName: "4"),
+            BuildButtons(buttonName: "5"),
+            BuildButtons(buttonName: "6"),
+            BuildButtons(buttonName: "-"),
+              ],
+            ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            BuildButtons(buttonName: "1"),
+            BuildButtons(buttonName: "2"),
+            BuildButtons(buttonName: "3"),
+            BuildButtons(buttonName: "+"),
+              ],
+            ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            BuildButtons(buttonName: "00"),
+            BuildButtons(buttonName: "0"),
+            BuildButtons(buttonName: ","),
+            BuildButtons(buttonName: "="),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BuildButtons extends StatefulWidget {
+  final String buttonName;
+
+  const BuildButtons({Key? key, required this.buttonName}) : super(key: key);
+
+  @override
+  _BuildButtonsState createState() => _BuildButtonsState();
+}
+
+class _BuildButtonsState extends State<BuildButtons> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: ElevatedButton(
+        onPressed: () {
+          if (kDebugMode) {
+            print('pressed ${widget.buttonName}');
+          }
+        },
+        child: Text(
+          widget.buttonName,
+          style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+// class BuildButtons extends StatelessWidget{
+//   final String buttonName;
+//
+//   const BuildButtons({super.key, required this.buttonName});
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(2.0),
+//       child: ElevatedButton(onPressed: () => print('pressed'),
+//         child: Text(buttonName,
+//           style: const TextStyle(
+//               fontSize: 20.0,
+//               fontWeight: FontWeight.bold
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class BuildButtons extends StatefulWidget{
+//   final String buttonName;
+//   const BuildButtons({super.key, required this.buttonName});
+//
+//   @override
+//   State<StatefulWidget> createState() {
+//
+//
+//   }
+// }
+
+class Functionalities{
+  late double firstNumbers;
+  late double secondNumbers;
+  late String operator;
+
+  calculate(){
+    switch(operator){
+      case "+": return (firstNumbers + secondNumbers);
+      case "-": return (firstNumbers - secondNumbers);
+      case "*": return (firstNumbers * secondNumbers);
+      case "/": return (firstNumbers / secondNumbers);
+    }
+  }
+}
+
