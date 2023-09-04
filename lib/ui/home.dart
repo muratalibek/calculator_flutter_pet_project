@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -9,6 +8,8 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
+  Functionalities functionalities = Functionalities();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,194 +21,148 @@ class _CalculatorState extends State<Calculator> {
           'Calculator',
           style: TextStyle(
             fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
+            fontWeight: FontWeight.bold)))),
+      backgroundColor: Colors.white,
+      body: Column(children: [
+        Screen(functionalities: functionalities),
+        const SizedBox(width: 8),
+        _buttonDesign()
+      ]));
+  }
+ Padding _buttonDesign() => Padding(padding: const EdgeInsets.all(24),
+    child: SizedBox(width: 350.0, height: 500.0,
+      child: Column(children: [
+        const Spacer(),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          _buildButtons(buttonName: "C"),
+          _buildButtons(buttonName: "%"),
+          _buildButtons(buttonName: "<="),
+          _buildButtons(buttonName: "/"),
+        ],
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          _buildButtons(buttonName: "7"),
+          _buildButtons(buttonName: "8"),
+          _buildButtons(buttonName: "9"),
+          _buildButtons(buttonName: "*"),
+        ],
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          _buildButtons(buttonName: "4"),
+          _buildButtons(buttonName: "5"),
+          _buildButtons(buttonName: "6"),
+          _buildButtons(buttonName: "-"),
+        ],
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          _buildButtons(buttonName: "1"),
+          _buildButtons(buttonName: "2"),
+          _buildButtons(buttonName: "3"),
+          _buildButtons(buttonName: "+"),
+        ],
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          _buildButtons(buttonName: "00"),
+          _buildButtons(buttonName: "0"),
+          _buildButtons(buttonName: ","),
+          _buildButtons(buttonName: "="),
+        ],
+        ),
+      ],
+      ),
+    ),
+  );
+
+ Widget _buildButtons({required String buttonName}) => Padding(
+    padding: const EdgeInsets.all(3.0),
+    child: ElevatedButton(
+      onPressed: () => setState(() {
+      var value = double.tryParse(buttonName);
+      if(value == null){
+        functionalities.operator = buttonName;
+      }
+      else if(functionalities.firstNumbers == 0){
+        functionalities.firstNumbers = value;
+      }
+      else if(functionalities.secondNumbers == 0){
+        functionalities.secondNumbers = value;
+      }
+    }),
+      child: Text(buttonName,
+        style: const TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold
         ),
       ),
-      ),
-      backgroundColor: Colors.white,
-      body: const MainClass(),
-    );
-  }
-}
-
-class MainClass extends StatelessWidget{
-  const MainClass({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Screen(),
-        SizedBox(width: 8),
-        ButtonDesign(),
-      ],
-    );
-  }
+    ),
+  );
 }
 
 class Screen extends StatelessWidget{
-  const Screen({super.key});
+  final Functionalities functionalities;
 
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(8.0),
-      child: SizedBox(width: 350.0, height: 75.0,
-        child: Column(children: [
-          Row(// Линия для отображения кнопок
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text('value',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          Row(// Линия для отображения кнопок
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text("= result",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ],
-        ),
-      ),
-    );
-  }
-}
-class ButtonDesign extends StatelessWidget{
+  const Screen({super.key, required this.functionalities});
 
-  const ButtonDesign({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(padding: EdgeInsets.all(24),
-      child: SizedBox(width: 350.0, height: 500.0,
-        child: Column(children: [
-          Spacer(),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            BuildButtons(buttonName: "C"),
-            BuildButtons(buttonName: "%"),
-            BuildButtons(buttonName: "<="),
-            BuildButtons(buttonName: "/"),
-              ],
-            ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            BuildButtons(buttonName: "7"),
-            BuildButtons(buttonName: "8"),
-            BuildButtons(buttonName: "9"),
-            BuildButtons(buttonName: "*"),
-              ],
-            ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            BuildButtons(buttonName: "4"),
-            BuildButtons(buttonName: "5"),
-            BuildButtons(buttonName: "6"),
-            BuildButtons(buttonName: "-"),
-              ],
-            ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            BuildButtons(buttonName: "1"),
-            BuildButtons(buttonName: "2"),
-            BuildButtons(buttonName: "3"),
-            BuildButtons(buttonName: "+"),
-              ],
-            ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            BuildButtons(buttonName: "00"),
-            BuildButtons(buttonName: "0"),
-            BuildButtons(buttonName: ","),
-            BuildButtons(buttonName: "="),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class BuildButtons extends StatefulWidget {
-  final String buttonName;
-
-  const BuildButtons({Key? key, required this.buttonName}) : super(key: key);
-
-  @override
-  _BuildButtonsState createState() => _BuildButtonsState();
-}
-
-class _BuildButtonsState extends State<BuildButtons> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: ElevatedButton(
-        onPressed: () {
-          if (kDebugMode) {
-            print('pressed ${widget.buttonName}');
-          }
-        },
-        child: Text(
-          widget.buttonName,
-          style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-        ),
-      ),
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+          width: 350.0,
+          height: 75.0,
+        child: Column(children: [
+          Row(// Линия для отображения кнопок
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(_screenDisplay(),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ]),
+          Row(// Линия для отображения кнопок
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                  _result(),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold))])
+          ]
+        )
+      )
     );
   }
+
+  String _screenDisplay() {
+     if(functionalities.operator == "C"){
+       return "${functionalities.firstNumbers = 0} ${functionalities.operator = " "} ${functionalities.secondNumbers = 0}";
+    }
+    else{
+       return "${functionalities.firstNumbers} ${functionalities.operator} ${functionalities.secondNumbers}";
+    }
+  }
+
+  String _result() {
+      return "= ${functionalities.calculate()}";
+  }
 }
-
-// class BuildButtons extends StatelessWidget{
-//   final String buttonName;
-//
-//   const BuildButtons({super.key, required this.buttonName});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(2.0),
-//       child: ElevatedButton(onPressed: () => print('pressed'),
-//         child: Text(buttonName,
-//           style: const TextStyle(
-//               fontSize: 20.0,
-//               fontWeight: FontWeight.bold
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class BuildButtons extends StatefulWidget{
-//   final String buttonName;
-//   const BuildButtons({super.key, required this.buttonName});
-//
-//   @override
-//   State<StatefulWidget> createState() {
-//
-//
-//   }
-// }
-
 class Functionalities{
-  late double firstNumbers;
-  late double secondNumbers;
-  late String operator;
+  late double firstNumbers = 0;
+  late double secondNumbers = 0;
+  late String operator = '';
 
-  calculate(){
+  String calculate(){
     switch(operator){
-      case "+": return (firstNumbers + secondNumbers);
-      case "-": return (firstNumbers - secondNumbers);
-      case "*": return (firstNumbers * secondNumbers);
-      case "/": return (firstNumbers / secondNumbers);
+      case "+": return (firstNumbers + secondNumbers).toString();
+      case "-": return (firstNumbers - secondNumbers).toString();
+      case "*": return (firstNumbers * secondNumbers).toString();
+      case "/": return (firstNumbers / secondNumbers).toString();
+      case "%": return (firstNumbers % secondNumbers).toString();
+      default: return "";
     }
   }
 }

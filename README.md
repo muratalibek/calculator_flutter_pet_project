@@ -14,3 +14,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+>All the requirements, such as button design, screen layout, and more, have been segregated into distinct classes.
+>Multiple classes have been configured, and necessary links have been established with the home widget.
