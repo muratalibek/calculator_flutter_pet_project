@@ -163,23 +163,47 @@ class Functionalities{
   String calculate(){
     try {
       if(firstNumbers.isNotEmpty && secondNumbers.isNotEmpty){
-        int firstInput = int.parse(firstNumbers);
-        int secondInput = int.parse(secondNumbers);
-        switch (operator) {
-          case "+":
-            return (firstInput + secondInput).toString();
-          case "-":
-            return (firstInput - secondInput).toString();
-          case "*":
-            return (firstInput * secondInput).toString();
-          case "/":
-            return (firstInput / secondInput).toString();
-          case "%":
-            return (firstInput % secondInput).toString();
-          case "=":
-            return "";
-          default:
-            return "";
+        if(firstNumbers.contains(".") || secondNumbers.contains(".")){
+          double firstInput = double.parse(firstNumbers);
+          double secondInput = double.parse(secondNumbers);
+
+          switch (operator) {
+            case "+":
+              return (firstInput + secondInput).toString();
+            case "-":
+              return (firstInput - secondInput).toString();
+            case "*":
+              return (firstInput * secondInput).toString();
+            case "/":
+              return (firstInput / secondInput).toString();
+            case "%":
+              return (firstInput % secondInput).toString();
+            case "=":
+              return "";
+            default:
+              return "";
+          }
+        }
+        else{
+          int firstInput = int.parse(firstNumbers);
+          int secondInput = int.parse(secondNumbers);
+
+          switch (operator) {
+            case "+":
+              return (firstInput + secondInput).toString();
+            case "-":
+              return (firstInput - secondInput).toString();
+            case "*":
+              return (firstInput * secondInput).toString();
+            case "/":
+              return (firstInput / secondInput).toString();
+            case "%":
+              return (firstInput % secondInput).toString();
+            case "=":
+              return "";
+            default:
+              return "";
+          }
         }
       }
       else{
