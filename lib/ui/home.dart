@@ -64,7 +64,7 @@ class _CalculatorState extends State<Calculator> {
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           _buildButtons(buttonName: "00"),
           _buildButtons(buttonName: "0"),
-          _buildButtons(buttonName: ","),
+          _buildButtons(buttonName: "."),
           _buildButtons(buttonName: "="),
         ],
         ),
@@ -83,7 +83,7 @@ class _CalculatorState extends State<Calculator> {
         else if(functionalities.operator == ""){
           functionalities.firstNumbers += buttonName;
         }
-        else if(functionalities.operator != ""){
+        else if(functionalities.operator != "" && buttonName != "="){
           functionalities.secondNumbers += buttonName;
         }
         else if(buttonName == "=" && functionalities.firstNumbers != "" && functionalities.secondNumbers != "" && functionalities.operator != ""){
@@ -111,34 +111,35 @@ class Screen extends StatelessWidget{
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
           width: 350.0,
-          height: 75.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-          Row(// Линия для отображения кнопок
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(child: Text(_screenDisplay(),
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold
-                   ),
-                 ),
-               ),
-            ]),
-          Row(// Линия для отображения кнопок
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(child:
-              Text(
-                  functionalities.result,
+          height: 100.0,
+        child: SingleChildScrollView(
+          child: Column(
+              children: [
+            Row(// Линия для отображения кнопок
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(child: Text(_screenDisplay(),
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 25.0,
-                      fontWeight: FontWeight.bold)))
-              ])
-          ]
+                      fontWeight: FontWeight.bold
+                     ),
+                   ),
+                 ),
+              ]),
+            Row(// Линия для отображения кнопок
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(child:
+                Text(
+                    functionalities.result.toString(),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold)))
+                ])
+            ]
+          ),
         )
       )
     );
@@ -146,16 +147,12 @@ class Screen extends StatelessWidget{
 
   String _screenDisplay() {
      if(functionalities.operator == "C"){
-       return "${functionalities.firstNumbers = ""} ${functionalities.operator = ""} ${functionalities.secondNumbers = ""}";
+       return "${functionalities.firstNumbers = ""} ${functionalities.operator = ""} ${functionalities.secondNumbers = ""} ${functionalities.result = ""}";
     }
     else{
        return "${functionalities.firstNumbers} ${functionalities.operator} ${functionalities.secondNumbers}";
     }
   }
-  // String _result() {
-  //     return functionalities.calculate();
-  //   }
-
 }
 class Functionalities{
   late String firstNumbers = "";
