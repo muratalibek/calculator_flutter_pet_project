@@ -77,16 +77,18 @@ class _CalculatorState extends State<Calculator> {
     padding: const EdgeInsets.all(3.0),
     child: ElevatedButton(
       onPressed: () => setState(() {
-      var value = double.tryParse(buttonName);
-      if(value == null){
-        functionalities.operator = buttonName;
-      }
-      else if(functionalities.firstNumbers == 0){
-        functionalities.firstNumbers = value;
-      }
-      else if(functionalities.secondNumbers == 0){
-        functionalities.secondNumbers = value;
-      }
+        if(buttonName == "+" || buttonName == "-" || buttonName == "*" || buttonName == "/" || buttonName == "%" || buttonName == "C"){
+          functionalities.operator = buttonName;
+        }
+        else if(functionalities.operator == ""){
+          functionalities.firstNumbers += buttonName;
+        }
+        else if(functionalities.operator != ""){
+          functionalities.secondNumbers += buttonName;
+        }
+        else if(buttonName == "=" && functionalities.firstNumbers != "" && functionalities.secondNumbers != "" && functionalities.operator != ""){
+          functionalities.result = functionalities.calculate();
+        }
     }),
       child: Text(buttonName,
         style: const TextStyle(
@@ -110,27 +112,32 @@ class Screen extends StatelessWidget{
       child: SizedBox(
           width: 350.0,
           height: 75.0,
-        child: Column(children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+            children: [
           Row(// Линия для отображения кнопок
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(_screenDisplay(),
+              Expanded(child: Text(_screenDisplay(),
                 style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
+                    color: Colors.black,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold
+                   ),
+                 ),
+               ),
             ]),
           Row(// Линия для отображения кнопок
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Expanded(child:
               Text(
-                  _result(),
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold))])
+                  functionalities.result,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold)))
+              ])
           ]
         )
       )
@@ -139,30 +146,52 @@ class Screen extends StatelessWidget{
 
   String _screenDisplay() {
      if(functionalities.operator == "C"){
-       return "${functionalities.firstNumbers = 0} ${functionalities.operator = " "} ${functionalities.secondNumbers = 0}";
+       return "${functionalities.firstNumbers = ""} ${functionalities.operator = ""} ${functionalities.secondNumbers = ""}";
     }
     else{
        return "${functionalities.firstNumbers} ${functionalities.operator} ${functionalities.secondNumbers}";
     }
   }
+  // String _result() {
+  //     return functionalities.calculate();
+  //   }
 
-  String _result() {
-      return "= ${functionalities.calculate()}";
-  }
 }
 class Functionalities{
-  late double firstNumbers = 0;
-  late double secondNumbers = 0;
-  late String operator = '';
+  late String firstNumbers = "";
+  late String secondNumbers = "";
+  late String operator = "";
+  late String result = "";
 
   String calculate(){
-    switch(operator){
-      case "+": return (firstNumbers + secondNumbers).toString();
-      case "-": return (firstNumbers - secondNumbers).toString();
-      case "*": return (firstNumbers * secondNumbers).toString();
-      case "/": return (firstNumbers / secondNumbers).toString();
-      case "%": return (firstNumbers % secondNumbers).toString();
-      default: return "";
+    try {
+      if(firstNumbers.isNotEmpty && secondNumbers.isNotEmpty){
+        int firstInput = int.parse(firstNumbers);
+        int secondInput = int.parse(secondNumbers);
+        switch (operator) {
+          case "+":
+            return (firstInput + secondInput).toString();
+          case "-":
+            return (firstInput - secondInput).toString();
+          case "*":
+            return (firstInput * secondInput).toString();
+          case "/":
+            return (firstInput / secondInput).toString();
+          case "%":
+            return (firstInput % secondInput).toString();
+          case "=":
+            return "";
+          default:
+            return "";
+        }
+      }
+      else{
+        return "";
+      }
+    }
+    catch (e) {
+      // Обработка ошибки парсинга
+      return "Ошибка при вычислениях: $e";
     }
   }
 }
