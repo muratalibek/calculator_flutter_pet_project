@@ -88,8 +88,19 @@ class _CalculatorState extends State<Calculator> {
         }
         else if(buttonName == "=" && functionalities.firstNumbers != "" && functionalities.secondNumbers != "" && functionalities.operator != ""){
           functionalities.result = functionalities.calculate();
+          functionalities.allResults.add(functionalities.result);
+        }
+        else if(buttonName == "<=" && functionalities.firstNumbers.isNotEmpty){
+          String newFirst = functionalities.firstNumbers.substring(0, functionalities.firstNumbers.length - 1);
+          functionalities.firstNumbers = newFirst.toString();
+
         }
     }),
+      onLongPress: () => setState(() {
+        if(buttonName == "C"){
+          functionalities.allResults = [];
+        }
+  }),
       child: Text(buttonName,
         style: const TextStyle(
             fontSize: 20.0,
@@ -97,6 +108,7 @@ class _CalculatorState extends State<Calculator> {
         ),
       ),
     ),
+
   );
 }
 
@@ -137,7 +149,18 @@ class Screen extends StatelessWidget{
                         color: Colors.black,
                         fontSize: 25.0,
                         fontWeight: FontWeight.bold)))
-                ])
+                ]),
+                Row(// Линия для отображения кнопок
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(child:
+                      Text(
+                          getAllResults().toString(),
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold)))
+                    ]),
             ]
           ),
         )
@@ -153,12 +176,16 @@ class Screen extends StatelessWidget{
        return "${functionalities.firstNumbers} ${functionalities.operator} ${functionalities.secondNumbers}";
     }
   }
+  List<String> getAllResults(){
+    return functionalities.allResults;
+  }
 }
 class Functionalities{
   late String firstNumbers = "";
   late String secondNumbers = "";
   late String operator = "";
   late String result = "";
+  List<String> allResults = [];
 
   String calculate(){
     try {
